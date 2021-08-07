@@ -45,6 +45,48 @@ namespace RestSharp_Address_BookSystem
             //Check the status code 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
+        //add data to json server
+        public IRestResponse AddingInJsonServer(JsonObject jsonObject)
+        {
+            RestRequest request = new RestRequest("/AddressBookContacts", Method.POST);
+            request.AddParameter("application/json", jsonObject, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            return response;
+
+        }
+        //Usecase 3: 
+        [TestMethod]
+        public void OnCallingPostAPI_Adding_MultipleData()
+        {
+            //Create Json object for employee one
+            JsonObject employeeOne = new JsonObject();
+            employeeOne.Add("firstName", "Dhana");
+            employeeOne.Add("lastName", "Lakshmi");
+            employeeOne.Add("Address", "131 martha street");
+            employeeOne.Add("City", "Pune");
+            employeeOne.Add("State", "Maharashtra");
+            employeeOne.Add("Zip", 243000);
+            employeeOne.Add("PhoneNumber", 900054540);
+            employeeOne.Add("Email", "Dhana@gmail.com");
+            //Call Function to Add
+            HttpStatusCode responseOne = AddingInJsonServer(employeeOne).StatusCode;
+
+            //Create Json object for employee Two
+            JsonObject employeeTwo = new JsonObject();
+            employeeTwo.Add("firstName", "Maruthi");
+            employeeTwo.Add("lastName", "dev");
+            employeeTwo.Add("Address", "Bakers street");
+            employeeTwo.Add("City", "Lucknow");
+            employeeTwo.Add("State", "UP");
+            employeeTwo.Add("Zip", 630116);
+            employeeTwo.Add("PhoneNumber", 920054540);
+            employeeTwo.Add("Email", "maruti@gmail.com");
+            //Call Function to Add
+            HttpStatusCode responseTwo = AddingInJsonServer(employeeTwo).StatusCode;
+
+            Assert.AreEqual(responseOne, HttpStatusCode.Created);
+            Assert.AreEqual(responseTwo, HttpStatusCode.Created);
+        }
 
     }
 }
