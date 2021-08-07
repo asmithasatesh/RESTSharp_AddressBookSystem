@@ -106,5 +106,22 @@ namespace RestSharp_Address_BookSystem
             Console.WriteLine("FirstName: {0} || LastName: {1} || Address :{2} || City: {3} || State: {4} || Zip: {5} || PhoneNumber: {6} || Email: {7} || contactid: {8}", result.firstName, result.lastName, result.Address, result.City, result.State, result.Zip, result.PhoneNumber, result.Email, result.id);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
         }
+        // Usecase 5: Delete the employee details using the id
+        [TestMethod]
+        public void OnCallingDeleteAPI_DeleteEmployeeDetails()
+        {
+            //Passing the method type as put(update existing employee details)
+
+            RestRequest request = new RestRequest("/AddressBookContacts/3", Method.DELETE);
+            IRestResponse response = client.Execute(request);
+            //check count after deletion
+            IRestResponse getresponse = GetAllContacts();
+            List<ContactModel> resultList = JsonConvert.DeserializeObject<List<ContactModel>>(getresponse.Content);
+            foreach (var result in resultList)
+            {
+                Console.WriteLine("FirstName: {0} || LastName: {1} || Address :{2} || City: {3} || State: {4} || Zip: {5} || PhoneNumber: {6} || Email: {7} || contactid: {8}", result.firstName, result.lastName, result.Address, result.City, result.State, result.Zip, result.PhoneNumber, result.Email, result.id);
+            }
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        }
     }
 }
