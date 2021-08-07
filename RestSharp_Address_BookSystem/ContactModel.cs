@@ -6,6 +6,7 @@ namespace RestSharp_Address_BookSystem
 {
     class ContactModel
     {
+        public int id;
         public string firstName;
         public string lastName;
         public string Address;

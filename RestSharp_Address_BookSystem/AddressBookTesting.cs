@@ -87,6 +87,24 @@ namespace RestSharp_Address_BookSystem
             Assert.AreEqual(responseOne, HttpStatusCode.Created);
             Assert.AreEqual(responseTwo, HttpStatusCode.Created);
         }
-
+        //Usecase 4: Method to update values for given ID
+        [TestMethod]
+        public void GivenPUTAPI_retrunResponse()
+        {
+            RestRequest request = new RestRequest("/AddressBookContacts/4", Method.PUT);
+            JsonObject employeeTwo = new JsonObject();
+            employeeTwo.Add("firstName", "Maruthi");
+            employeeTwo.Add("lastName", "dev");
+            employeeTwo.Add("Address", "BI BAZAR");
+            employeeTwo.Add("City", "Lucknow");
+            employeeTwo.Add("State", "UP");
+            employeeTwo.Add("Zip", 630116);
+            employeeTwo.Add("PhoneNumber", 920054540);
+            employeeTwo.Add("Email", "maruti@gmail.com");
+            IRestResponse response = client.Execute(request);
+            var result = JsonConvert.DeserializeObject<ContactModel>(response.Content);
+            Console.WriteLine("FirstName: {0} || LastName: {1} || Address :{2} || City: {3} || State: {4} || Zip: {5} || PhoneNumber: {6} || Email: {7} || contactid: {8}", result.firstName, result.lastName, result.Address, result.City, result.State, result.Zip, result.PhoneNumber, result.Email, result.id);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+        }
     }
 }
